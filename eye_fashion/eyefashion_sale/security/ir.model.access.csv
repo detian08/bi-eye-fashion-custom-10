@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order_payment_user,eyefashion_sale_order_payment_user,model_sale_order_payment,base.group_user,1,1,1,1
+access_pos_category_discount,access_pos_category_discount,model_pos_category_discount,base.group_user,1,1,1,1
+access_pos_discount_program,access_pos_discount_program,model_pos_discount_program,base.group_user,1,1,1,1

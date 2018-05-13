@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_card_type_form" model="ir.ui.view">
+			<field name="name">view.card.type.form</field>
+			<field name="model">card.type</field>
+			<field name="arch" type="xml">
+				<form string="Card Type">
+					<sheet>
+						<group col="2" string="Card Type">
+							<group>
+								<field name="name" colspan="2" />
+								<field name="period_id" widget='selection'/>
+								<field name="basic_point" colspan="1" />
+								<field name="point_per_period" />
+
+							</group>
+							<group>
+								<field name="categ_id" widget='selection'/>
+								<field name="seq" />
+								<field name="issue_hard_card" />
+								<field name="active" required="True" />
+							</group>
+						</group>
+						<group>
+							<div style="width:100%">
+								<label for="benefit">Benefit</label>
+								<group name="benefit" string="Benefit">
+									<field name="discount" />
+								</group>
+								<group>
+									<field name="note" widget="html" />
+								</group>
+							</div>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_card_type_tree" model="ir.ui.view">
+			<field name="name">view.card.type.list</field>
+			<field name="model">card.type</field>
+			<field name="arch" type="xml">
+				<tree string="Card Type">
+					<field name="name" />
+					<field name="period_id" />
+					<field name="basic_point" />
+					<field name="point_per_period" />
+					<field name="discount" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_card_type_search" model="ir.ui.view">
+			<field name="name">view.card.type.search</field>
+			<field name="model">card.type</field>
+			<field name="arch" type="xml">
+				<search string="Card Type">
+					<field name="name" />
+					<field name="period_id" />
+					<field name="discount" />
+					<group expand="0" string="Group By...">
+						<filter name="group_by_period" string="Period"
+							context="{'group_by':'period_id'}" />
+						<filter name="filter_by_period" string="Deactivated"
+							domain="[('active', '=', False)]" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+	</data>
+</openerp>

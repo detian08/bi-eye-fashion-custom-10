@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+        <record model="ir.sequence" id="voucher_customer_sequence">
+            <field name="name">Sequence For Voucher Customer</field>
+            <field name="code">voucher.customer</field>
+            <field name="active">TRUE</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        <record model="ir.sequence" id="voucher_supplier_sequence">
+            <field name="name">Sequence For Voucher Supplier</field>
+            <field name="code">voucher.supplier</field>
+            <field name="active">TRUE</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+        </record>
+    </data>
+</openerp>

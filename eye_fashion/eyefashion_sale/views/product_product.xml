@@ -1,0 +1,84 @@
+<odoo>
+
+    <record id="view_product_template_search_inherit_filter" model="ir.ui.view">
+        <field name="name">product.template.inherit.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <field name="name" string="Option1" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+                <field name="name" string="Option2" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+                <field name="name" string="Option3" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+                <field name="name" string="Option4" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+                <field name="name" string="Option5" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+                <field name="name" string="Option6" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+                <!--<field name="vision_type" string="Vision Type" filter_domain="[('vision_type','ilike',self)]"/>-->
+                <!--<field name="brand" string="Brand" filter_domain="[('brand','ilike',self)]"/>-->
+                <!--<field name="treatment" string="Treatment" filter_domain="[('treatment','ilike',self)]"/>-->
+                <!--<field name="style_c" string="StyleC" filter_domain="[('style_c','ilike',self)]"/>-->
+                <!--<field name="s_index" string="Index" filter_domain="[('s_index','ilike',self)]"/>-->
+                <!--<field name="coating" string="Coating" filter_domain="[('coating','ilike',self)]"/>-->
+            </field>
+        </field>
+    </record>
+
+    <record id="view_product_product_image_tree" model="ir.ui.view">
+         <field name="name">product.product.image.tree</field>
+         <field name="model">product.product</field>
+         <field name="inherit_id" ref="product.product_product_tree_view"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="image_small" widget="image" class="oe_avatar" string="Image"/>
+            </xpath>
+         </field>
+    </record>
+
+    <record id="view_product_template_inherit_tree" model="ir.ui.view">
+         <field name="name">product.template.inherit.tree</field>
+         <field name="model">product.template</field>
+         <field name="inherit_id" ref="product.product_template_only_form_view"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="product_brand_id"/>
+                <field name="v_type"/>
+                <field name="photo_x"/>
+                <field name="coating"/>
+                <field name="index"/>
+                <field name="avl"/>
+                <field name="design"/>
+                <field name="range_power"/>
+            </xpath>
+         </field>
+    </record>
+
+    <record id="view_product_product_inherit_tree" model="ir.ui.view">
+         <field name="name">product.product.inherit.tree</field>
+         <field name="model">product.product</field>
+         <field name="inherit_id" ref="product.product_normal_form_view"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="product_brand_id"/>
+                <field name="v_type"/>
+                <field name="photo_x"/>
+                <field name="coating"/>
+                <field name="index"/>
+                <field name="avl"/>
+                <field name="design"/>
+                <field name="range_power"/>
+            </xpath>
+         </field>
+    </record>
+
+    <record id="product_category_medical_form_view" model="ir.ui.view">
+        <field name="name">product.category.need.medical.form.view</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="need_medical"/>
+                <field name="full_payment"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

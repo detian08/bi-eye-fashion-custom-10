@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!--Override default sales orders report action to exclude pos order-->
+    <record id="sale.action_order_report_all" model="ir.actions.act_window">
+        <field name="name">Sales Analysis</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="sale.view_order_product_search"/>
+        <field name="context">{'search_default_Sales':1,'default_sale_type':'sale', 'group_by_no_leaf':1,'group_by':[]}</field>
+        <field name="domain">[('sale_type','=','sale')]</field>
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+
+    <record id="action_pos_order_report_all" model="ir.actions.act_window">
+        <field name="name">POS Analysis</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="sale.view_order_product_search"/>
+        <field name="context">{'search_default_Sales':1,'default_sale_type':'pos', 'group_by_no_leaf':1,'group_by':[]}</field>
+        <field name="domain">[('sale_type','=','pos')]</field>
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+    <!--<menuitem name="Sales" action="action_order_report_all" id="menu_report_product_all" parent="sales_team.menu_sale_report" sequence="10"/>-->
+
+
+    <!--Override default sales orders action to exclude pos orders -->
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="name">Sales Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="context">{'default_sale_type':'sale','search_default_today_filter':1}</field>
+        <field name="domain">[('sale_type','=','sale'),('state', 'not in', ('draft', 'sent', 'cancel'))]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create a Quotation, the first step of a new sale.
+            </p><p>
+                Once the quotation is confirmed, it becomes a sales order.
+                You'll be able to invoice it and collect payments.
+                From the <i>Sales Orders</i> menu, you can track delivery
+                orders or services.
+            </p>
+        </field>
+    </record>
+    <menuitem name="Sales" id="sales_team.menu_base_partner" groups="eyefashion_sale.group_wholesale_user"
+              web_icon="sale,static/description/icon.png"/>
+    <menuitem action="sale.action_orders" id="sale.menu_sale_order" parent="sales_team.menu_sales"
+        sequence="12" groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"/>
+
+
+    <!--Override default sales quotation to exclude pos orders -->
+    <record id="sale.action_quotations" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="sale.view_quotation_tree"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'default_sale_type':'sale','hide_sale': True,'search_default_today_filter':1}</field>
+        <field name="domain">[('sale_type','=','sale')]</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Create a Quotation, the first step of a new sale.
+          </p><p>
+            Your next actions should flow efficiently: confirm the Quotation
+            to a Sale Order, then create the Invoice and collect the Payment.
+          </p><p>
+            Note that once a Quotation becomes a Sale Order, it will be moved
+            from the Quotations list to the Sales Order list.
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="sale.menu_sale_quotations" action="sale.action_quotations" groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"
+              parent="sales_team.menu_sales" sequence="11"/>
+
+
+    <!-- Custom action to include pos orders only-->
+    <record id="pos_action_orders" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="context">{'default_sale_type':'pos','default_to_pay':True,'search_default_today_filter':1}</field>
+        <field name="domain">[('sale_type','=','pos')]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create orders.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_sale_order_today_filter" model="ir.ui.view">
+        <field name="name">sale.order.today.search</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="before">
+                <filter string="Today" name="today_filter" domain="[('date_order', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),
+                ('date_order', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="sale_order_view_form" model="ir.ui.view">
+      <field name="name">eyefashion_sale.sale_order.view_form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
+          <field name="partner_id" position="after">
+              <field name="insurance_company_ids" invisible="1"/>
+              <field name="is_corporate" invisible="1"/>
+              <field name="need_medical" invisible="1"/>
+              <field name="medical_id" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'invisible':[('sale_type','=','sale')],'required':[('sale_type','=','pos'),('need_medical','=',True)]}" domain="[('partner_id','=',partner_id)]"/>
+              <field name="corporate_id" attrs="{'invisible':['|',('sale_type','=','sale'),('partner_id','=',False)]}" domain="[('is_company','=',True)]"/>
+          </field>
+
+          <button name="print_quotation" position="replace"/>
+          <xpath expr="//notebook" position="inside">
+              <page string="Medical" attrs="{'invisible':[('medical_id','=',False)]}">
+                  <div style="width:50%;"><br/>
+                        <strong><span style="color:blue;">Date: </span></strong><field name="date"/><br/>
+                        <strong><span style="color:blue;">Doctor: </span></strong><field name="doctor_id"/><br/>
+                        <strong><span style="color:blue;">Hospital: </span></strong><field name="hospital_id"/><br/>
+                        <strong><span style="color:blue;">Family: </span></strong><field name="family_name"/><br/>
+                        <br/>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                   <th></th>
+                                   <th>SPH</th>
+                                   <th>CYL</th>
+                                   <th>AX</th>
+                                   <th>IPD</th>
+                                   <th>ADD</th>
+                                   <th>SEG.HI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                   <th>RE</th>
+                                   <td><field name="re_sph"/></td>
+                                   <td><field name="re_cyl"/></td>
+                                   <td><field name="re_ax"/></td>
+                                   <td><field name="re_ipd"/></td>
+                                   <td><field name="re_add"/></td>
+                                   <td><field name="re_seg"/></td>
+                                </tr>
+                                <tr>
+                                   <th>LE</th>
+                                   <td><field name="le_sph"/></td>
+                                   <td><field name="le_cyl"/></td>
+                                   <td><field name="le_ax"/></td>
+                                   <td><field name="le_ipd"/></td>
+                                   <td><field name="le_add"/></td>
+                                   <td><field name="le_seg"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                  </div>
+              </page>
+              <page string="Corporate Discount" attrs="{'invisible':['|',('sale_type','=','sale'),('corporate_id','=',False)]}">
+                  <group>
+                      <group>
+                          <field name="discount_rate"/>
+                          <field name="discount_program_id"/>
+                          <field name="adjusted_account_move"/>
+                      </group>
+                      <group></group>
+                  </group>
+              </page>
+          </xpath>
+          <button name="action_view_invoice" position="after">
+              <button name="action_view_account_payment"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-usd"
+                    attrs="{'invisible': ['|',('sale_type','=','sale'),('payment_count', '=', 0)]}">
+                <field name="payment_count" widget="statinfo" string="Payments"/>
+              </button>
+          </button>
+          <field name="partner_id" position="before">
+              <field name="sale_type" invisible="1"/>
+              <field name="to_pay" invisible="1"/>
+          </field>
+          <group name="sale_total" position="replace">
+              <group>
+                  <group style="width: 45%" attrs="{'invisible':[('sale_type','=','sale')]}">
+                      <!--<label for="cash_amount"/>-->
+                      <button name="show_payment" string="Add Payment" icon="fa-plus" type="object" class="btn-primary"/>
+                      <div attrs="{'invisible':[('to_pay','=',False)]}">
+                          <table class="table table-condensed">
+                              <thead>
+                                  <tr>
+                                      <th>Method</th>
+                                      <th>Amount</th>
+                                      <th>Notes</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <th>Cash</th>
+                                      <td><field name="cash_amount" nolabel="1" widget="monetary" class="oe_inline" options="{'currency_field': 'currency_id'}"/></td>
+                                      <td><field name="cash_memo" nolabel="1" class="oe_inline"/></td>
+                                  </tr>
+                                  <tr>
+                                      <th>Ahly</th>
+                                      <td><field name="bank_amount1" nolabel="1" widget="monetary" class="oe_inline" options="{'currency_field': 'currency_id'}"/></td>
+                                      <td><field name="bank_memo1" nolabel="1" class="oe_inline"/></td>
+                                  </tr>
+                                  <tr>
+                                      <th>Alex</th>
+                                      <td><field name="bank_amount2" nolabel="1" widget="monetary" class="oe_inline" options="{'currency_field': 'currency_id'}"/></td>
+                                      <td><field name="bank_memo2" nolabel="1" class="oe_inline"/></td>
+                                  </tr>
+                                  <tr  attrs="{'invisible':[('corporate_id','=',False)]}">
+                                      <th>Corporate</th>
+                                      <td><field name="corporate_amount"  nolabel="1" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id'}"/></td>
+                                      <td><field name="corporate_memo" nolabel="1" class="oe_inline"/></td>
+                                  </tr>
+                                  <tr>
+                                      <td colspan="3"><button name="register_payment" string=" Pay " type="object"/></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </group>
+                  <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                      <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                      <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                      <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                          <label for="amount_total"/>
+                          <button name="button_dummy" states="draft,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                      </div>
+                      <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                      <field name="rounded_total" widget="monetary" attrs="{'invisible':[('sale_type','=','sale')]}" options="{'currency_field': 'currency_id'}"/>
+                      <field name="rounded_total_after_refund" widget="monetary" attrs="{'invisible':[('sale_type','=','sale')]}" options="{'currency_field': 'currency_id'}"/>
+                      <field name="round_off_value" widget="monetary" attrs="{'invisible':[('sale_type','=','sale')]}" options="{'currency_field': 'currency_id'}"/>
+                      <field name="paid_amount" widget="monetary" attrs="{'invisible':[('sale_type','=','sale')]}" options="{'currency_field': 'currency_id'}"/>
+                      <field name="residual" class="oe_subtotal_footer_separator" widget="monetary" attrs="{'invisible':[('sale_type','=','sale')]}" options="{'currency_field': 'currency_id'}"/>
+                      <!--<field name="reconciled" invisible="1"/>-->
+                      <!--<field name="outstanding_credits_debits_widget" colspan="2" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>-->
+                  </group>
+              </group>
+          </group>
+          <xpath expr="//notebook" position="inside">
+              <page string="Payment Details" attrs="{'invisible':[('sale_type','=','sale')]}">
+                  <field name="payment_ids"/>
+              </page>
+          </xpath>
+          <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="attributes">
+              <attribute name="attrs">{'invisible':[('sale_type','=','pos')]}</attribute>
+          </xpath>
+          <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="replace">
+              <field name="has_pricelist_discount" invisible="1"/>
+              <field name="discount" attrs="{'readonly':[('has_pricelist_discount','=',True)]}" groups="sale.group_discount_per_so_line"/>
+          </xpath>
+          <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="replace">
+              <field name="price_unit" attrs="{'readonly': [('product_id', '!=', False)]}" readonly="1"/>
+          </xpath>
+      </field>
+    </record>
+
+    <record id="view_sale_order_tree_refund" model="ir.ui.view">
+        <field name="name">sale.order.refund.tree.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="amount_total" position="replace">
+                <field name="rounded_total" string="Total" sum="Total"/>
+                <field name="rounded_total_after_refund" string="Total after refund" sum="Total"/>
+            </field>
+        </field>
+    </record>
+</odoo>

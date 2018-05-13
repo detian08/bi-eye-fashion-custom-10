@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_pos_config" model="ir.ui.view">
+            <field name="name">pos settings</field>
+            <field name="model">pos.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure POS" class="oe_form_configuration" name="pos_config_form">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <div id="main">
+                        <group string="Discount Limit">
+                            <group>
+                                <field name="apply_discount_limit"/>
+                                <field name="salesman_discount_limit" attrs="{'invisible': [('apply_discount_limit', '=', False)],'required': [('apply_discount_limit', '=', False)]}"/>
+                                <field name="store_mgr_discount_limit" attrs="{'invisible': [('apply_discount_limit', '=', False)],'required': [('apply_discount_limit', '=', False)]}"/>
+                            </group>
+                        </group>
+                    </div>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_pos_settings" model="ir.actions.act_window">
+            <field name="name">Configure POS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.config.settings</field>
+            <field name="view_id" ref="view_pos_config"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+    </data>
+</odoo>

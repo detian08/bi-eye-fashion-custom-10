@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_account_journal_parent_discount_form">
+            <field name="name">account.journal.form.view.inherit.parent.discount</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="point_of_sale.view_account_journal_pos_user_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page" position="inside">
+                        <group col="4" colspan="4">
+                            <field name="is_corporate"/>
+                            <field name="discount_account" attrs="{'invisible':[('is_corporate','=',False)],'required':[('is_corporate','=',True)]}"/>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

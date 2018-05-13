@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_re_partner_search_inherit_filter" model="ir.ui.view">
+        <field name="name">res.partner.select.inherit.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="mobile" string="Mobile" filter_domain="[('mobile','ilike',self)]"/>
+                <field name="phone" string="Phone" filter_domain="[('phone','ilike',self)]"/>
+            </field>
+        </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_res_partner_parent_discount_form">
+            <field name="name">res.partner.form.view.inherit.parent.discount</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <notebook position="inside">
+                        <page string="Corporate Details" attrs="{'invisible':[('company_type','=','person')]}">
+                            <group>
+                                <group>
+                                    <field name="is_discount"/>
+                                    <field name="discount_rate" attrs="{'invisible':[('is_discount','=',False)],'required':[('is_discount','=',True)]}"/>
+                                    <field name="discount_program_id" attrs="{'invisible':[('is_discount','=',False)]}"/>
+                                    <label for="date_from" string="Duration"/>
+                                    <div>
+                                        <div>
+                                            <field name="start_date" placeholder="From" class="oe_inline"/>
+                                            <label string=" - " class="oe_inline"/>
+                                            <field name="end_date" placeholder="To" class="oe_inline"/>
+                                        </div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <field name="corporate_account_id" attrs="{'required':[('company_type','=','company')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </data>
+            </field>
+        </record>
+
+
+    <record id="pos_discount_program_form_view" model="ir.ui.view">
+        <field name="name">pos.discount.program.form</field>
+        <field name="model">pos.discount.program</field>
+        <field name="arch" type="xml">
+            <form string="Pos Discount Program">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <label for="date_from" string="Duration"/>
+                            <div>
+                                <div>
+                                    <field name="start_date" placeholder="From" class="oe_inline"/>
+                                    <label string=" - " class="oe_inline"/>
+                                    <field name="end_date" placeholder="To" class="oe_inline"/>
+                                </div>
+                            </div>
+                        <field name="discount_category_ids">
+                            <tree string="Discount category" editable="bottom">
+                                <field name="discount_category_id"/>
+                                <field name="discount_percentage"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pos_discount_category_form_view" model="ir.ui.view">
+        <field name="name">pos.category.discount.form</field>
+        <field name="model">pos.category.discount</field>
+        <field name="arch" type="xml">
+            <form string="Pos Category Discount">
+                <sheet>
+                    <group>
+                        <field name="discount_category_id" required="1"/>
+                        <field name="discount_percentage"/>
+                        <field name="discount_program_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pos_discount_program_tree_view" model="ir.ui.view">
+        <field name="name">pos.discount.program.tree</field>
+        <field name="model">pos.discount.program</field>
+        <field name="arch" type="xml">
+            <tree string="Discount Program">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pos_discount_program_action" model="ir.actions.act_window">
+        <field name="name">POS Discount Programs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.discount.program</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to define a new discount program.
+            </p>
+        </field>
+    </record>
+
+    </data>
+</openerp>

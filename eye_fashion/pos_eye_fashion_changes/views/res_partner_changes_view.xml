@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="eye_fashion_res_partner_inherit_form_view" model="ir.ui.view">
+            <field name="name">res.partner.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Eye Fashion">
+                        <group>
+                            <field name="sph_data"/>
+                            <field name="cyl_data"/>
+                            <field name="doctor_id"/>
+                            <field name="hospital_id"/>
+                            <field name="card_id"/>
+                            <field name="expiry_date"/>
+                            <field name="related_percentage_of_discount"/>
+                            <field name="related_expiry_date"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+<!---->
+
+        <record id="eye_fashion_res_partner_inherit_form_view2" model="ir.ui.view">
+            <field name="name">res.partner2.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='fiscal_information']" position="after">
+                    <group string="Eye Fashion">
+                        <field name="percentage_of_discount"/>
+                        <field name="discount_account"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_partner_lab_user,eyefashion_res_partner_lab_user,model_res_partner_lab,base.group_user,1,1,1,1
+access_res_hospital_user,eyefashion_res_hospital_user,model_res_hospital,base.group_user,1,1,1,1
+access_res_doctor_user,eyefashion_res_doctor_user,model_res_doctor,base.group_user,1,1,1,1

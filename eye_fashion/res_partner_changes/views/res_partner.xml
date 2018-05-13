@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="view_partner_form_changes" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="priority">50</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]" position="before">
+                    <page string="Medical" attrs="{'invisible':[('company_type','=','company')]}">
+                        <field name="lab_ids" mode="kanban">
+                            <kanban>
+                                <!--<field name="image"/>-->
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click">
+                                            <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                            <!--<div class="o_kanban_image">-->
+                                                <!--<img t-if="record.image.raw_value" t-att-src="'data:image/png;base64,'+record.image.raw_value"/>-->
+                                            <!--</div>-->
+                                            <div class="oe_kanban_details">
+                                                <strong><span style="color:blue;">Date: </span></strong><field name="date"/><br/>
+                                                <strong><span style="color:blue;">Doctor: </span></strong><field name="doctor_id"/><br/>
+                                                <strong><span style="color:blue;">Hospital: </span></strong><field name="hospital_id"/><br/>
+                                                <strong><span style="color:blue;">Family: </span></strong><field name="family_name"/><br/>
+                                                <br/>
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                           <th></th>
+                                                           <th>SPH</th>
+                                                           <th>CYL</th>
+                                                           <th>AX</th>
+                                                           <th>IPD</th>
+                                                           <th>ADD</th>
+                                                           <th>SEG.HI</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                           <th>RE</th>
+                                                           <td><field name="re_sph"/></td>
+                                                           <td><field name="re_cyl"/></td>
+                                                           <td><field name="re_ax"/></td>
+                                                           <td><field name="re_ipd"/></td>
+                                                           <td><field name="re_add"/></td>
+                                                           <td><field name="re_seg"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                           <th>LE</th>
+                                                           <td><field name="le_sph"/></td>
+                                                           <td><field name="le_cyl"/></td>
+                                                           <td><field name="le_ax"/></td>
+                                                           <td><field name="le_ipd"/></td>
+                                                           <td><field name="le_add"/></td>
+                                                           <td><field name="le_seg"/></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+                    <page string="Insurance Companies" attrs="{'invisible':[('company_type','=','company')]}">
+                        <field colspan="4" name="insurance_company_ids" widget="many2many_kanban">
+                            <kanban quick_create="false" create="true" delete="true">
+                                <field name="name"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div style="position: relative">
+                                            <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                            <div class="oe_module_vignette">
+                                                <img t-att-src="kanban_image('res.users', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                <div class="oe_module_desc">
+                                                    <field name="name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+   </data>
+</odoo>

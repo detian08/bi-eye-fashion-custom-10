@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Doctor tree view -->
+        <record model="ir.ui.view" id="res_doctor_tree_view">
+			<field name="name">res.doctor.tree.view</field>
+			<field name="model">res.doctor</field>
+			<field name="priority">10</field>
+			<field name="arch" type="xml">
+				<tree string='Doctor'>
+					<field name="name"/>
+					<field name="area"/>
+					<field name="address"/>
+           		</tree>
+			</field>
+		</record>
+
+        <!-- Doctor action -->
+		<record model="ir.actions.act_window" id="view_res_doctor_action">
+			<field name="name">Doctor</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.doctor</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="res_doctor_tree_view"/>
+		</record>
+
+        <!-- Doctor menuitem -->
+        <menuitem id="res_doctor_menuitem" name="Doctors" sequence="1" parent="sales_team.menu_sale_config" action="view_res_doctor_action"/>
+
+   </data>
+</odoo>

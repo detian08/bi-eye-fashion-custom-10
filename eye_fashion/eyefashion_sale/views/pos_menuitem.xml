@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="pos_mgt_root" name="POS" groups="eyefashion_sale.group_pos_sale_user"/>
+        <menuitem id="pos_mgt" name="Orders" parent="pos_mgt_root" sequence="1"/>
+        <menuitem id="pos_reports" name="Reports" parent="pos_mgt_root" sequence="2"/>
+        <menuitem id="pos_conf" name="Configuration" parent="pos_mgt_root" sequence="3"/>
+
+        <!--POS Orders-->
+        <menuitem id="pos_order_item" name="Orders" sequence="1" parent="pos_mgt" action="eyefashion_sale.pos_action_orders"/>
+        <!--<menuitem id="pos_res_partner" name="Customers" sequence="2" parent="pos_mgt" action="base.action_partner_form"/>-->
+        <menuitem id="pos_products" name="Products" sequence="2" parent="pos_mgt" action="stock.product_template_action_product"/>
+
+
+        <!--POS Configuration-->
+        <menuitem id="pos_settings" name="POS Discount Limit" sequence="0" parent="pos_conf" action="action_pos_settings"/>
+        <menuitem id="pos_sales_team" name="Sales Teams" sequence="1" parent="pos_conf" action="sales_team.sales_team_config_action"/>
+        <menuitem id="pos_payment_method" name="Payment Methods" sequence="2" parent="pos_conf" action="action_account_journal_form"/>
+        <menuitem id="pos_discount_program" name="Discount Programs" action="pos_discount_program_action" parent="pos_conf" sequence="3" />
+        <menuitem id="pos_scrap_reason_menuitem" name="Scrap Reasons" sequence="4" parent="pos_conf" action="view_scrap_reason_action"/>
+        <menuitem id="res_doctor_pos_menuitem" name="Doctors" sequence="5" parent="pos_conf" action="res_partner_changes.view_res_doctor_action"/>
+        <menuitem id="res_hospital_pos_menuitem" name="Hospitals" sequence="6" parent="pos_conf" action="res_partner_changes.view_res_hospital_action"/>
+
+        <!--POS Reports-->
+        <menuitem id="pos_report_menuitem" name="POS" sequence="1" parent="pos_reports" action="action_pos_order_report_all"/>
+        <menuitem id="payment_report_menuitem" name="Payments" sequence="2" parent="pos_reports" action="action_pos_payment_report"/>
+    </data>
+</openerp>

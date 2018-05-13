@@ -1,0 +1,7 @@
+# import sale_order_changes
+import stock_picking_changes
+import product_changes
+import stock_production_lot_changes
+import stock_move_changes
+import scanned_product_model
+# import temp_product_lines

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!--<record id="view_account_payment_refund" model="ir.ui.view">-->
+        <!--<field name="name">account.payment.refund</field>-->
+        <!--<field name="model">account.payment</field>-->
+        <!--<field name="inherit_id" ref="account.view_account_payment_invoice_form"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<field name="journal_id" position="replace">-->
+                <!--<field name="journal_id" widget="selection" domain="[('type','=','cash')]"/>-->
+            <!--</field>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <record id="view_account_payment_today_filter" model="ir.ui.view">
+        <field name="name">account.payment.today.search</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <filter name="state_draft" position="before">
+                <filter string="Today" name="today_filter" domain="[('payment_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- POS Payments action -->
+    <record model="ir.actions.act_window" id="action_pos_payment_report">
+        <field name="name">POS Payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'default_payment_type': 'inbound', 'default_partner_type': 'customer','search_default_today_filter':1}</field>
+        <field name="domain">[('partner_type', '=', 'customer'),('sale_id','!=',False),('create_uid','=',uid)]</field>
+        <field name="view_id" ref="account.view_account_payment_tree"/>
+    </record>
+
+    <record id="view_account_payment_tree_refund" model="ir.ui.view">
+        <field name="name">account.payment.refund.tree.view</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <field name="amount" position="replace">
+                <field name="actual_amount" sum="Total Amount"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

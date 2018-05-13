@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="eyefashion_account_invoice_form_view" model="ir.ui.view">
+      <field name="name">eyefashion_account.invoice_form_view</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_form"/>
+      <field name="arch" type="xml">
+          <field name="partner_id" position="after">
+              <field name="medical_id" invisible="1"/>
+          </field>
+          <xpath expr="//notebook" position="inside">
+              <page string="Medical" attrs="{'invisible':[('medical_id','=',False)]}">
+                  <div style="width:50%;"><br/>
+                        <strong><span style="color:blue;">Date: </span></strong><field name="date"/><br/>
+                        <strong><span style="color:blue;">Doctor: </span></strong><field name="doctor_id"/><br/>
+                        <strong><span style="color:blue;">Hospital: </span></strong><field name="hospital_id"/><br/>
+                        <br/>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                   <th></th>
+                                   <th>SPH</th>
+                                   <th>CYL</th>
+                                   <th>AX</th>
+                                   <th>IPD</th>
+                                   <th>ADD</th>
+                                   <th>SEG.HI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                   <th>RE</th>
+                                   <td><field name="re_sph"/></td>
+                                   <td><field name="re_cyl"/></td>
+                                   <td><field name="re_ax"/></td>
+                                   <td><field name="re_ipd"/></td>
+                                   <td><field name="re_add"/></td>
+                                   <td><field name="re_seg"/></td>
+                                </tr>
+                                <tr>
+                                   <th>LE</th>
+                                   <td><field name="le_sph"/></td>
+                                   <td><field name="le_cyl"/></td>
+                                   <td><field name="le_ax"/></td>
+                                   <td><field name="le_ipd"/></td>
+                                   <td><field name="le_add"/></td>
+                                   <td><field name="le_seg"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                  </div>
+              </page>
+          </xpath>
+      </field>
+    </record>
+</odoo>

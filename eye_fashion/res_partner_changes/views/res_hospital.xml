@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Hospital tree view -->
+        <record model="ir.ui.view" id="res_hospital_tree_view">
+			<field name="name">res.hospital.tree.view</field>
+			<field name="model">res.hospital</field>
+			<field name="priority">10</field>
+			<field name="arch" type="xml">
+				<tree string='Hospital'>
+					<field name="name"/>
+           		</tree>
+			</field>
+		</record>
+
+        <!-- Hospital action -->
+		<record model="ir.actions.act_window" id="view_res_hospital_action">
+			<field name="name">Hospital</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.hospital</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="res_hospital_tree_view"/>
+		</record>
+
+        <!-- Hospital menuitem -->
+        <menuitem id="res_hospital_menuitem" name="Hospitals" sequence="1" parent="sales_team.menu_sale_config" action="view_res_hospital_action"/>
+
+   </data>
+</odoo>

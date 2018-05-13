@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_payment_voucher_tree" model="ir.ui.view">
+            <field name="name">zm.payment.voucher.tree</field>
+            <field name="model">zm.payment.voucher</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Payment">
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="payment_journal_id"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="currency_id"/>
+                    <field name="payment_type" invisible="1"/>
+                    <field name="state" invisible="1"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="view_payment_voucher_form" model="ir.ui.view">
+            <field name="name">zm.payment.voucher.form</field>
+            <field name="model">zm.payment.voucher</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Payment" version="7.0">
+                    <header>
+                        <button name="confirm_payment" string="Pay" class="oe_highlight"
+                                type="object" states="draft"/>
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="draft,done"
+                               statusbar_colors='{"draft": "red", "done": "blue"}'/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="button_journal_entries" string="Journal Items"
+                                    type="object"
+                                    attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-bars"/>
+                            <field name="move_line_ids" invisible="1"/>
+                        </div>
+                        <field name="id" invisible="1"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="journal_bank"
+                                       invisible="1"/>
+                                <field name="payment_type" widget="radio"
+                                       invisible="1"/>
+                                <field name="payment_journal_id" widget="selection"/>
+                                <field name="partner_id"
+                                       context="{'default_is_company': True, 'default_supplier': payment_type == 'supplier', 'default_customer': payment_type == 'customer'}"/>
+                                <field name="bank_id"
+                                       attrs="{'invisible': [('journal_bank','=', False)], 'required': [('journal_bank','=', True)]}"/>
+                                <field name="account_id"/>
+                                <label for="payment_amount"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="payment_amount"/>
+
+
+                                </div>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="cheque_number"
+                                       attrs="{'invisible': [('journal_bank','=', False)]}"/>
+                                <field name="ref"/>
+                                <field name="partner_name"/>
+                                <field name="analytic_account_id"/>
+                                <field name="currency_id" options="{'no_create': True, 'no_open': True}"
+                                       groups="base.group_multi_currency" />
+                            </group>
+                        </group>
+                        <group>
+                            <field name="desc"/>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+        <record id="view_payment_voucher_search" model="ir.ui.view">
+            <field name="name">zm.payment.voucher.search</field>
+            <field name="model">zm.payment.voucher</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Payment">
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="payment_journal_id"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="currency_id"/>
+                    <field name="payment_type" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <group expand="0" string="Group By">
+                        <filter string="State" name="state_filter" context="{'group_by':'state'}"/>
+                        <filter string="Partner" name="partner_filter" context="{'group_by':'partner_id'}"/>
+                        <filter string="Date" name="date_filter" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_payment_voucher_c_view">
+            <field name="name">Customer Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">zm.payment.voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_payment_voucher_search"/>
+            <field name="domain">[('payment_type','=','customer')]</field>
+            <field name="context">{'default_payment_type':'customer'}</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_payment_voucher_s_view">
+            <field name="name">Supplier Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">zm.payment.voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_payment_voucher_search"/>
+            <field name="domain">[('payment_type','=','supplier')]</field>
+            <field name="context">{'default_payment_type':'supplier'}</field>
+        </record>
+        <menuitem action="action_payment_voucher_c_view"
+                  id="menu_customer_payment"
+                  parent="account.menu_finance_receivables" sequence="21"/>
+
+        <menuitem action="action_payment_voucher_s_view"
+                  id="menu_supplier_payment"
+                  parent="account.menu_finance_payables" sequence="21"/>
+
+    </data>
+</odoo>

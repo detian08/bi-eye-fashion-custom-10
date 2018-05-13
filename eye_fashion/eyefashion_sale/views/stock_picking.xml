@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="stock_picking_custom_status_form" model="ir.ui.view">
+        <field name="name">stock.picking.custom.status.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="picking_type_status" invisible="1"/>
+                <field name="custom_status" string="Status" attrs="{'invisible': [('picking_type_status','!=','outgoing')]}"/>
+                <field name="related_status" string="Status" attrs="{'invisible': ['|',('related_status','=',False),('picking_type_status','!=','incoming')]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

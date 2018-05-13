@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_header_gl_custom" inherit_id="report.external_layout_header">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                        </div>
+                        <div class="col-xs-4">
+                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"
+                                 style="max-height: 45px;"/>
+                        </div>
+                        <div class="col-xs-4" style="text-align:right">
+                            <span t-esc="user.name"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+        <template id="report_gl_new_print">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="report.external_layout">
+                        <div class="font">
+                            <div class="page">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <strong>Number</strong>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <span t-field="doc.name"/>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <strong>Journal</strong>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <span t-field="doc.journal_id"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <strong>Date</strong>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <span t-field="doc.date"/>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <strong>Reference</strong>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <span t-field="doc.ref"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <strong>Company</strong>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <span t-field="doc.company_id.name"/>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Account</th>
+                                        <th>Partner</th>
+                                        <th>Label</th>
+                                        <th class="text-right">Debit</th>
+                                        <th class="text-right">Credit</th>
+                                        <t t-if="doc.have_lines_analytic(doc.line_ids.sorted(key=lambda x: x.debit))">
+                                            <th class="text-right">Analytic Account</th>
+                                        </t>
+                                        <t t-if="doc.have_lines_amount(doc.line_ids.sorted(key=lambda x: x.debit))">
+                                            <th class="text-right">Amount Currency</th>
+                                        </t>
+                                    </tr>
+                                    <tr t-foreach="doc.line_ids.sorted(key=lambda x: x.debit,reverse=True)"
+                                        t-as="line">
+                                        <td>
+                                            <span t-field="line.account_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.partner_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit"/>
+                                        </td>
+                                        <t t-if="doc.have_lines_analytic(doc.line_ids.sorted(key=lambda x: x.debit))">
+                                            <td class="text-right">
+
+                                                <span t-field="line.analytic_account_id"/>
+
+                                            </td>
+                                        </t>
+                                        <t t-if="doc.have_lines_amount(doc.line_ids.sorted(key=lambda x: x.debit))">
+                                            <td class="text-right">
+
+                                                <span t-field="line.amount_currency"/>
+
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" colspan="3">Total</td>
+                                        <td class="text-right">
+                                            <span t-field="doc.amount"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="doc.amount"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p>
+                                    <h4>Description:</h4>
+                                    <span t-field="doc.narration"/>
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

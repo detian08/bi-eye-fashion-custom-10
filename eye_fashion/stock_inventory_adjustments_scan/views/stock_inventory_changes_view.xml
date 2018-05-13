@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="adjustment_stock_inventory_inherit" model="ir.ui.view">
+            <field name="name">stock.inventory.inherit</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+
+                <field name="exhausted" position="after">
+                    <field name="scanning_box" attrs="{'invisible':[('state','=','draft')]}"/>
+                </field>
+
+                <field name="accounting_date" position="after">
+                    <field name="scanning_mode" attrs="{'invisible':[('state','=','draft')]}"/>
+                </field>
+
+                <xpath expr="//page/field[@name='line_ids']/tree/field[@name='state']" position="after">
+                    <field name="scanned_quantity" />
+                </xpath>
+
+                <button name="reset_real_qty" position="after">
+                    <button name="synchronize_scanned_quantities" states="confirm" string="⇒ Synchronize scanned quantities"
+                            type="object" class="oe_link oe_right"
+                            groups="stock.group_stock_user"/>
+                </button>
+
+
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

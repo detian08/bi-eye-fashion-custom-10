@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="view_bonus_refral" model="ir.ui.view">
+            <field name="name">bonus.ref.form</field>
+            <field name="model">bonus.tier</field>
+            <field name="arch" type="xml">
+                <form string="Bonus Refral">
+                    <sheet>
+                        <div>
+                            <h2><field name="name" string="Tier Name" placeholder="Name"/></h2>
+                        </div>
+                        <group> 
+                            <field name="bonus_percent" string="Percentage" />
+                            <field name="description" string="Description" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="pos_referral_action_window">
+            <field name="name">Pos Refral</field>
+            <field name="res_model">bonus.tier</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <template id="custom_assets_backends_js" name="pos_orders referrals" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/pos_referral/static/src/js/pos.js"></script>
+            </xpath>
+        </template>
+        <menuitem name="Bonus Tier" id="point_of_sale_bonus" parent="point_of_sale.menu_point_config_product" action="pos_referral_action_window" sequence="31" />
+    </data>
+</odoo>

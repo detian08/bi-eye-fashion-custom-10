@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Medical Form view -->
+        <record model="ir.ui.view" id="res_partner_lab_form_view">
+			<field name="name">res.partner.lab.form.view</field>
+			<field name="model">res.partner.lab</field>
+			<field name="priority">10</field>
+			<field name="arch" type="xml">
+				<form string="EYE FASHION OPTICS - LAB FORM">
+					<group>
+						<group>
+							<field name="doctor_id"/>
+							<field name="family_name"/>
+						</group>
+						<group>
+							<field name="hospital_id"/>
+							<field name="date"/>
+						</group>
+					</group>
+					<group>
+						<group>
+							<field name="re_sph" placeholder="+20.00 : -20.00"/>
+							<field name="re_cyl" placeholder="+06.00 : -06.00"/>
+							<field name="re_ax" placeholder="0 : 180"/>
+							<field name="re_ipd" placeholder="20.00 : 38.00"/>
+							<field name="re_add" placeholder="+03.75 : +00.50"/>
+							<field name="re_seg" placeholder="35.00 : 08.00"/>
+						</group>
+						<group>
+							<field name="le_sph" placeholder="+20.00 : -20.00"/>
+							<field name="le_cyl" placeholder="+06.00 : -06.00"/>
+							<field name="le_ax" placeholder="0 : 180"/>
+							<field name="le_ipd" placeholder="20.00 : 38.00"/>
+							<field name="le_add" placeholder="+03.75 : +00.50"/>
+							<field name="le_seg" placeholder="35.00 : 08.00"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+
+   </data>
+</odoo>

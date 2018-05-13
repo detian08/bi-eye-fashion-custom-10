@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="external_layout_new_me">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="zm_account_voucher.external_layout_header_new_me"/>
+            <t t-raw="0"/>
+        </template>
+        <template id="external_layout_header_new_me">
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-4">
+                    </div>
+                    <div class="col-xs-4">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"
+                             style="width:80px;height:80px;" align="center"/>
+                    </div>
+                    <div class="col-xs-4">
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_payment_new">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="zm_account_voucher.external_layout_new_me">
+
+                        <div class="page">
+                            <div class="row">
+                                <t t-if="o.payment_type=='customer'">
+                                    <div class="col-xs-12 text-center">
+                                        <h1>سند استلام نقدية / شيكات</h1>
+                                    </div>
+                                </t>
+                                <t t-if="o.payment_type=='supplier'">
+                                    <div class="col-xs-12 text-center">
+                                        <h1>سند صرف نقديه/شيكات</h1>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3" style="border:1px solid #000000;">
+                                    <span t-esc="o.name"/>
+                                </div>
+                                <div class="col-xs-2">
+                                    مسلسل
+                                </div>
+                                <div class="col-xs-7">
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-2" style="border:1px solid #000000;">
+
+                                    <span t-esc="o.date"/>
+
+                                </div>
+                                <div class="col-xs-2">
+                                    التاريخ
+                                </div>
+                                <div class="col-xs-4">
+                                </div>
+                                <div class="col-xs-4" style="border:1px solid #000000;text-align:center;">
+                                    <span t-esc="o.payment_amount"  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-xs-9" style="border:1px solid #000000;text-align:right;">
+                                    <span t-esc="o.partner_name"/>
+                                </div>
+                                <t t-if="o.payment_type=='supplier'">
+                                    <div class="col-xs-3" style="text-align:right;">
+                                        : اصرفوا للسيد
+
+                                    </div>
+                                </t>
+                                <t t-if="o.payment_type=='customer'">
+                                    <div class="col-xs-3" style="text-align:right;">
+                                        : استلمنا من السيد
+                                    </div>
+                                </t>
+
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8" style="border:1px solid #000000;text-align:right;">
+                                    <span t-esc="o.convertNumber(o.payment_amount)"/>
+                                    فقط لا غير
+                                </div>
+                                <div class="col-xs-4" style="text-align:right;">
+                                    :مبلغ وقدره
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <t t-if="o.payment_journal_id.type=='bank'">
+                                <div class="row">
+                                    <div class="col-xs-4" style="border:1px solid #000000;text-align:right;">
+                                        <span t-esc="o.bank_id"/>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        : على بنك
+                                    </div>
+                                    <div class="col-xs-4" style="border:1px solid #000000;text-align:right;">
+
+                                        <span t-esc="o.cheque_number"/>
+
+                                    </div>
+                                    <div class="col-xs-2" style="text-align:right;">
+                                        :شيك رقم
+                                    </div>
+                                </div>
+                            </t>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-10" style="border:1px solid #000000;text-align:right;">
+
+                                    <span t-esc="o.desc"/>
+
+                                </div>
+                                <div class="col-xs-2" style="text-align:right;">
+                                    :وذلك بمقابل
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    المحاسب
+                                </div>
+                                <div class="col-xs-6">
+                                </div>
+                                <div class="col-xs-3" style="text-align:right;">
+                                    المستلم
+                                </div>
+                            </div>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

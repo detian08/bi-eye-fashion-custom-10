@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report
+                id="account_gl_new_report"
+                string="Print : GL entry"
+                model="account.move"
+                report_type="qweb-pdf"
+                name="zm_print_entries.report_gl_new_print"
+                file="zm_print_entries.report_gl_new_print"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

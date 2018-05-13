@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="view_partner_custom" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="category_id" position="after">
+                        <field name="refered_by" string="Referred By" />
+                        <field name="tier" string="Bonus Tier" />
+                        <field name="referral_points" readonly="True" />
+                    </field>
+                </data>
+                <xpath expr="//page[@name='accounting']" position="after">
+                    <page string="Referal Bonus" col="4" name="Referal Bonus">
+                        <field name="pos_orders">
+                            <tree string="POS Orders" decoration-info="state == 'draft'" decoration-muted="state in ('done','cancel')" create="0">
+                                <field name="name" />
+                                <field name="pos_reference" />
+                                <field name="partner_id" />
+                                <field name="date_order" />
+                                <field name="user_id" />
+                                <field name="amount_total" sum="Amount total" widget="monetary" />
+                                <field name="company_id" groups="base.group_multi_company" />
+                                <field name="state" />
+                                <field name="points_earned" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

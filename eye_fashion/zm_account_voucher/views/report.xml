@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report
+                id="account_payment_new_report"
+                string="Payment"
+                model="zm.payment.voucher"
+                report_type="qweb-pdf"
+                name="zm_account_voucher.report_payment_new"
+                file="zm_account_voucher.report_payment_new"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

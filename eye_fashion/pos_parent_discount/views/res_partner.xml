@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_res_partner_parent_discount_form">
+            <field name="name">res.partner.form.view.inherit.parent.discount</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='trust']" position="after">
+                        <field name="is_discount"/>
+                        <field name="discount_rate" attrs="{'invisible':[('is_discount','=',False)],'required':[('is_discount','=',True)]}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

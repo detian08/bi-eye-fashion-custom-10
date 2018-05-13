@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+          <xpath expr="." position="inside">
+              <script type="text/javascript" src="/pos_referral/static/src/js/pos.js"></script>    
+          </xpath>
+
+    <t t-name="ClientDetailsEdit">
+        <section class="client-details edit">
+            <div class="client-picture">
+                <t t-if="!partner.id">
+                    <i class="fa fa-camera"></i>
+                </t>
+                <t t-if="partner.id">
+                    <img t-att-src="widget.partner_icon_url(partner.id)" />
+                </t>
+                <input type="file" class="image-uploader"></input>   
+            </div>
+            <input class="detail client-name" name="name" t-att-value="partner.name" placeholder="Name"></input>
+            <div class="edit-buttons">
+                <div class="button undo"><i class="fa fa-undo" /></div>
+                <div class="button save"><i class="fa fa-floppy-o" /></div><br></br>
+            </div>
+
+            <div class="client-details-box clearfix">
+                <div class="client-details-left">
+                    <div class="client-detail">
+                        <span class="label">Street</span>
+                        <input class="detail client-address-street" name="street" t-att-value="partner.street || &quot;&quot;" placeholder="Street"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">City</span>
+                        <input class="detail client-address-city" name="city" t-att-value="partner.city || &quot;&quot;" placeholder="City"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Postcode</span>
+                        <input class="detail client-address-zip" name="zip" t-att-value="partner.zip || &quot;&quot;" placeholder="ZIP"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Country</span>
+                        <select class="detail client-address-country" name="country_id">
+                            <option value="">None</option>
+                            <t t-foreach="widget.pos.countries" t-as="country">
+                                <option t-att-value="country.id" t-att-selected="partner.country_id ? ((country.id === partner.country_id[0]) ? true : undefined) : undefined"> 
+                                    <t t-esc="country.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Ref. By</span>
+                        <select class="detail client-partner" name="refered_by">
+                            <option value="">None</option>
+                            <t t-foreach="widget.pos.partners" t-as="referrer">
+                                <option t-att-value="referrer.id" t-att-selected="partner.refered_by ? ((referrer.id === partner.refered_by[0]) ? true : undefined) : undefined"> 
+                                    <t t-esc="referrer.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="client-details-right">                  
+                    <div class="client-detail">
+                        <span class="label">Email</span>
+                        <input class="detail client-email" name="email" type="email" t-att-value="partner.email || &quot;&quot;"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Phone</span>
+                        <input class="detail client-phone" name="phone" type="tel" t-att-value="partner.phone || &quot;&quot;"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Barcode</span>
+                        <input class="detail barcode" name="barcode" t-att-value="partner.barcode || &quot;&quot;"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Tax ID</span>
+                        <input class="detail vat" name="vat" t-att-value="partner.vat || &quot;&quot;"></input>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Tier</span>
+                        <select class="detail client-partner" name="tier">
+                            <option value="">None</option>
+                            <t t-foreach="widget.pos.bonus_tier" t-as="tiers">
+                                <option t-att-value="tiers.id" t-att-selected="partner.tier ? ((tiers.id === partner.tier[0]) ? true : undefined) : undefined"> 
+                                    <t t-esc="tiers.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </t>
+
+    <t t-name="ClientDetails">
+        <section class="client-details">
+            <div class="client-picture">
+                <img t-att-src="widget.partner_icon_url(partner.id)" />
+            </div>
+            <div class="client-name"><t t-esc="partner.name" /></div>
+            <div class="edit-buttons">
+                <div class="button edit"><i class="fa fa-pencil-square" /></div>
+            </div>
+            <div class="client-details-box clearfix">
+                <div class="client-details-left">
+                    <div class="client-detail">
+                        <span class="label">Address</span>
+                        <t t-if="partner.address">
+                            <span class="detail client-address"><t t-esc="partner.address" /></span>
+                        </t>
+                        <t t-if="!partner.address">
+                            <span class="detail client-address empty">N/A</span>
+                        </t>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Email</span>
+                        <t t-if="partner.email">
+                            <span class="detail client-email"><t t-esc="partner.email" /></span>
+                        </t>
+                        <t t-if="!partner.email">
+                            <span class="detail client-email empty">N/A</span>
+                        </t>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Phone</span>
+                        <t t-if="partner.phone">
+                            <span class="detail client-phone"><t t-esc="partner.phone" /></span>
+                        </t>
+                        <t t-if="!partner.phone">
+                            <span class="detail client-phone empty">N/A</span>
+                        </t>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Ref. By</span>
+                        <t t-if="partner.refered_by">
+                            <span class="detail client-phone"><t t-esc="partner.refered_by[1]" /></span>
+                        </t>
+                        <t t-if="!partner.refered_by">
+                            <span class="detail client-phone empty">N/A</span>
+                        </t>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Tier</span>
+                        <t t-if="partner.tier">
+                            <span class="detail client-phone"><t t-esc="partner.tier[1]" /></span>
+                        </t>
+                        <t t-if="!partner.tier">
+                            <span class="detail client-phone empty">N/A</span>
+                        </t>
+                    </div>
+                </div>
+                <div class="client-details-right">
+                    <div class="client-detail">
+                        <span class="label">Barcode</span>
+                        <t t-if="partner.barcode">
+                            <span class="detail client-id"><t t-esc="partner.barcode" /></span>
+                        </t>
+                        <t t-if="!partner.barcode">
+                            <span class="detail client-id empty">N/A</span>
+                        </t>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Tax ID</span>
+                        <t t-if="partner.vat">
+                            <span class="detail vat"><t t-esc="partner.vat" /></span>
+                        </t>
+                        <t t-if="!partner.vat">
+                            <span class="detail vat empty">N/A</span>
+                        </t>
+                    </div>
+                    <div class="client-detail">
+                        <span class="label">Ref. Points</span>
+                        <t t-if="partner.referral_points">
+                            <span class="detail client-id"><t t-esc="partner.referral_points" /></span>
+                        </t>
+                        <t t-if="!partner.referral_points">
+                            <span class="detail client-id empty">N/A</span>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t>
+</templates>

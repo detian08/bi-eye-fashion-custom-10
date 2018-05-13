@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record model="card.stage" id="stage_card1">
+		<field name="name">Draft</field>
+		<field name="code">Draft</field>
+		<field name="sequence">10</field>
+		<field name="usage">all</field>
+	</record>
+	<record model="card.stage" id="stage_card2">
+		<field name="name">Confirmed</field>
+		<field name="code">Confirmed</field>
+		<field name="sequence">20</field>
+		<field name="usage">all</field>
+		<field name="noupdate_card">1</field>
+	</record>
+	<record model="card.stage" id="stage_card3">
+		<field name="name">Waiting Hard Card</field>
+		<field name="code">Waiting Hard Card</field>
+		<field name="sequence">30</field>
+		<field name="usage">hard</field>
+		<field name="noupdate_card">1</field>
+	</record>
+	<record model="card.stage" id="stage_card5">
+		<field name="name">In Use</field>
+		<field name="code">In Use</field>
+		<field name="sequence">40</field>
+		<field name="usage">all</field>
+		<field name="noupdate">1</field>
+		<field name="noupdate_card">1</field>
+	</record>
+	<record model="card.stage" id="stage_card6">
+		<field name="name">Cancelled</field>
+		<field name="code">Cancelled</field>
+		<field name="sequence">50</field>
+		<field name="usage">all</field>
+		<field name="noupdate_card">1</field>
+	</record>
+	<record model="card.stage" id="stage_card7">
+		<field name="name">Locked</field>
+		<field name="code">Locked</field>
+		<field name="sequence">60</field>
+		<field name="usage">all</field>
+		<field name="noupdate_card">1</field>
+	</record>
+</odoo>

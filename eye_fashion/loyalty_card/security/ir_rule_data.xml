@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="rule_unlink_card" model="ir.rule">
+            <field name="name">Delete Loyalty Card</field>
+            <field name="model_id" ref="loyalty_card.model_card_card" />
+            <field name="perm_read" eval="False" />
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="True" />
+            <field name="domain_force">[('state', '=', 'Draft')]</field>
+        </record>
+    </data>
+</openerp>
