@@ -9,7 +9,9 @@ class StockPicking(models.Model):
     status_list = [('received','Received'),
                                       ('factory_in','Factory in'),
                                       ('prepared_lance','Prepared Lance'),
-                                      ('under_process','Under Process')]
+                                      ('under_process','Under Process'),
+                                      ('done','Done'), 
+                                      ('reject','Reject')]
 
     custom_status = fields.Selection(status_list,string='Status',copy=False, store=True, track_visibility='onchange')
     related_status = fields.Selection(status_list,compute='_get_related_status',string='Status',readonly=True)

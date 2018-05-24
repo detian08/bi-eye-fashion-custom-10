@@ -24,6 +24,18 @@
         </field>
     </record>
 
+
+    <record id="view_account_payment_form_inherit" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_type']" position="after">
+                <field name="team_leader"/>
+            </xpath>
+        </field>
+    </record>
+
     <!-- POS Payments action -->
     <record model="ir.actions.act_window" id="action_pos_payment_report">
         <field name="name">POS Payments</field>
@@ -32,7 +44,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{'default_payment_type': 'inbound', 'default_partner_type': 'customer','search_default_today_filter':1}</field>
-        <field name="domain">[('partner_type', '=', 'customer'),('sale_id','!=',False),('create_uid','=',uid)]</field>
+        <field name="domain">[('partner_type', '=', 'customer'), '|', ('create_uid','=',uid), ('team_leader', '=', uid)]</field>
         <field name="view_id" ref="account.view_account_payment_tree"/>
     </record>
 
