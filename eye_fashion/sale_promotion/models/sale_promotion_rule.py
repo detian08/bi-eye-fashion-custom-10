@@ -54,6 +54,10 @@ class SalePromotionRule(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   readonly=True, related='promotion_id.currency_id', store=True)
     promotion_rule_lines = fields.One2many('sale.promotion.rule.line', 'promotion_rule_id', string="Promotion Lines")
+    promo_cat_id = fields.Many2one('product.category', string="Promoted Product Category")
+
+
+
 
     @api.constrains('date_start', 'date_end')
     def check_date(self):
@@ -70,11 +74,24 @@ class SalePromotionRule(models.Model):
 class SalePromotionLines(models.Model):
     _name = 'sale.promotion.rule.line'
 
-    product_id = fields.Many2one('product.product', string="Product")
+    product_id = fields.Many2one('product.product', string="Product", domain=[('sale_ok', '=', True)])
     quantity = fields.Integer(string="Quantity")
     promotion_rule_id = fields.Many2one('sale.promotion.rule', string="Promotion Lines")
+    cate_id = fields.Many2one('product.category', related='promotion_rule_id.promo_cat_id')
 
-
+    @api.onchange('cate_id')
+    def _get_product_domain(self):
+        if self.cate_id:
+            ids = []
+            products = self.env['product.product'].search([('categ_id', '=', self.cate_id.id)])
+            for product in products:
+                ids.append(product.id)
+            domain = [('id', 'in', ids)]
+            return {
+                    'domain': {
+                                'product_id': domain,
+                            }
+                    }
 
 
 

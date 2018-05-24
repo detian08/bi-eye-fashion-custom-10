@@ -36,12 +36,17 @@
                             <field name="date_end"/>
                         </group>
                     </group>
+                    <group>
+                        <field name="promo_cat_id"/>
+                    </group>
                     <notebook>
                         <page string="Promotion Rule lines">
                             <field name="promotion_rule_lines">
-                                <tree name="Promotion Rule Lines">
-                                    <field name="product_id" domain="[('is_promotion_product','=',True),('sale_ok', '=', True)]"/>
-                                    <field name="quantity"/>
+                                <tree name="Promotion Rule Lines" editable="bottom">
+                                    <field name="product_id" required="1"/>
+                                    <field name="quantity" required="1"/>
+                                    <field name="cate_id" invisible="1"/>
+                                    <field name="promotion_rule_id" invisible="1"/>
                                 </tree>
 
                             </field>
