@@ -8,7 +8,7 @@ class StockPicking(models.Model):
 
     status_list = [('received','Received'),
                                       ('factory_in','Factory in'),
-                                      ('prepared_lance','Prepared Lance'),
+                                      ('prepared_lance','Prepared Lens'),
                                       ('under_process','Under Process'),
                                       ('done','Done'), 
                                       ('reject','Reject')]

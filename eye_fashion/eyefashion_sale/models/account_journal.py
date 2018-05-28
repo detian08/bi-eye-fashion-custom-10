@@ -23,7 +23,7 @@ class AccountPayment(models.Model):
     sale_id = fields.Many2one('sale.order')
     corporate_id = fields.Many2one('res.partner','Corporate')
     actual_amount = fields.Float(string='Payment Amount',compute='_get_actual_amount',store=True)
-    team_leader = fields.Many2one('res.users', compute="get_team_leader", string="Team Leader")
+    team_leader = fields.Many2one('res.users', compute="get_team_leader", string="Team Leader", store=True)
 
     @api.depends('create_uid')
     def get_team_leader(self):
