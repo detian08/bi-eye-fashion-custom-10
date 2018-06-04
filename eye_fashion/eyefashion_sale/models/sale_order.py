@@ -130,6 +130,9 @@ class SaleOrder(models.Model):
     project_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
                                  help="The analytic account related to a sales order.",default=_default_team_analytic_id, copy=False)
 
+    sale_promotion_id = fields.Char()
+
+
 
     @api.model
     def create(self, vals):
