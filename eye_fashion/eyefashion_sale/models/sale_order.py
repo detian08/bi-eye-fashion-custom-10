@@ -542,7 +542,7 @@ class SaleOrderLine(models.Model):
             salesman_discount_limit = int(conf.get_param('pos_salesman_discount.salesman_discount_limit'))
             store_mgr_discount_limit = int(conf.get_param('pos_storemgr_discount.store_mgr_discount_limit'))
             apply_discount_limit = conf.get_param('pos_apply_discount.apply_discount_limit')
-            if apply_discount_limit and not line.has_pricelist_discount:
+            if apply_discount_limit and not line.has_pricelist_discount and not line.order_id.sale_promotion_id:
                 if self.env.user.has_group('eyefashion_sale.group_pos_store_manager'):
                     if line.discount > store_mgr_discount_limit:
                         raise UserError(_("You cannot exceed the discount limit %s with item %s.")% (store_mgr_discount_limit,line.product_id.name))

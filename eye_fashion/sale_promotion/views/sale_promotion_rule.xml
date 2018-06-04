@@ -37,10 +37,11 @@
                         </group>
                     </group>
                     <group>
-                        <field name="promo_cat_id"/>
+                        <field name="promo_cat_id" attrs="{'required': [('apply_on_cat', '=', True)]}"/>
+                        <field name="apply_on_cat" invisible="1"/>
                     </group>
                     <notebook>
-                        <page string="Promotion Rule lines">
+                        <page string="Promotion Rule lines" attrs="{'invisible': [('apply_on_cat', '=', True)]}">
                             <field name="promotion_rule_lines">
                                 <tree name="Promotion Rule Lines" editable="bottom">
                                     <field name="product_id" required="1"/>
