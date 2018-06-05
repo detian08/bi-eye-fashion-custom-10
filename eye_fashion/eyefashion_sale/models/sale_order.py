@@ -224,8 +224,16 @@ class SaleOrder(models.Model):
                             payment.write({'invoice_ids': [(4, invoice.id, None)]})
                             payment.post()
                 for picking in order.picking_ids:
+                    
+                    
                     if picking.state == 'assigned':
-                        order._force_picking_done(picking)
+                        make_done = True
+                        lens_cat = self.env['product.category'].search([('name', '=', 'Lenses')])
+                        for move in picking.move_lines:
+                            if move.product_id.categ_id.id == lens_cat.id:
+                                make_done = False
+                        if make_done:
+                            order._force_picking_done(picking)
         return res
 
 
