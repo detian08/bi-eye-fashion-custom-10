@@ -127,6 +127,9 @@
           </field>
 
           <button name="print_quotation" position="replace"/>
+          <button name="print_quotation" position="replace">
+            <button name="print_quotation" string="Print" type="object" states="sent,sale,done"/>
+          </button>
           <xpath expr="//notebook" position="inside">
               <page string="Medical" attrs="{'invisible':[('medical_id','=',False)]}">
                   <div style="width:50%;"><br/>
