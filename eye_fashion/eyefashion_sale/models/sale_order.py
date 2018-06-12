@@ -217,6 +217,27 @@ class SaleOrder(models.Model):
         for order in self:
             res = super(SaleOrder, self).action_confirm()
             if order.sale_type == 'pos':
+                for line in order.order_line:
+                    cat = self.env['product.category'].search([('name', '=', 'Lenses')])
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    print cat
+                    print "               "
+                    print "               "
+                    print "               "
+                    print "               "
+                    if line.product_id.categ_id.id == cat.id:
+                        print "equal"
+                        if not order.medical_id:
+                            print "no medical"
+                            raise UserError(_("You Must Enter Medical To Add Lenses !!"))
                 order.create_pos_invoice()
                 for invoice in order.invoice_ids:
                     if invoice.type == 'out_invoice':
