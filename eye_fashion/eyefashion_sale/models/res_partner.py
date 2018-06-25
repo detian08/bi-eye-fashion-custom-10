@@ -29,11 +29,11 @@ class ResPartner(models.Model):
     start_date = fields.Date(related='discount_program_id.start_date',string='Start Date',readonly=True,store=True)
     end_date = fields.Date(related='discount_program_id.end_date',string='Expiration',readonly=True,store=True)
     corporate_account_id = fields.Many2one('account.account','Corporate Account')
-    has_eye_card = fields.Boolean('Has Eye Card ?')
-    eye_card_no = fields.Char('Card No.')
-    property_product_pricelist = fields.Many2one(
-        'product.pricelist', 'Sale Pricelist', compute='_compute_product_pricelist',
-        inverse="_inverse_product_pricelist", company_dependent=False)
+    # has_eye_card = fields.Boolean('Has Eye Card ?')
+    # eye_card_no = fields.Char('Card No.')
+    # property_product_pricelist = fields.Many2one(
+    #     'product.pricelist', 'Sale Pricelist', compute='_compute_product_pricelist',
+    #     inverse="_inverse_product_pricelist", company_dependent=False)
 
 
     @api.model
