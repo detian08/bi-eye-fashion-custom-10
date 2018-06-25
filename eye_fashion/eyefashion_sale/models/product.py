@@ -35,3 +35,9 @@ class ProductCategory(models.Model):
 
     need_medical = fields.Boolean('Need Medical',default=False)
     full_payment = fields.Boolean('Full Payment',default=False)
+
+
+class ProductPricelistInherit(models.Model):
+    _inherit = 'product.pricelist'
+
+    is_eye_card = fields.Boolean('Is Eye Card PriceList') 
