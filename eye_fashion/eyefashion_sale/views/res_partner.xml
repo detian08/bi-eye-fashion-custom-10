@@ -22,8 +22,8 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="category_id" position="after">
-                        <field name="has_card"/>
-                        <field name="card_no" attrs="{'invisible': [('has_card', '!=', True)], 'required': [('has_card', '=', True)]}"/>
+                        <field name="has_eye_card"/>
+                        <field name="eye_card_no" attrs="{'invisible': [('has_eye_card', '!=', True)], 'required': [('has_eye_card', '=', True)]}"/>
                     </field>
                     <notebook position="inside">
                         <page string="Corporate Details" attrs="{'invisible':[('company_type','=','person')]}">
