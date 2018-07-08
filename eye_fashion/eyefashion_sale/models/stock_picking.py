@@ -17,6 +17,9 @@ class StockPicking(models.Model):
     related_status = fields.Selection(status_list,compute='_get_related_status',string='Status',readonly=True)
 
     picking_type_status = fields.Char('Picking Type', compute='_get_picking_type')
+    sale_order_id = fields.Many2one('sale.order', 'Sale Order')
+    purchase_order_id = fields.Many2one('purchase.order', 'Purchase Order')
+
 
     @api.multi
     def _get_picking_type(self):

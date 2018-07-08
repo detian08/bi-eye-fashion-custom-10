@@ -219,20 +219,6 @@ class SaleOrder(models.Model):
             if order.sale_type == 'pos':
                 for line in order.order_line:
                     cat = self.env['product.category'].search([('name', '=', 'Lenses')])
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
-                    print cat
-                    print "               "
-                    print "               "
-                    print "               "
-                    print "               "
                     if line.product_id.categ_id.id == cat.id:
                         print "equal"
                         if not order.medical_id:
@@ -245,8 +231,6 @@ class SaleOrder(models.Model):
                             payment.write({'invoice_ids': [(4, invoice.id, None)]})
                             payment.post()
                 for picking in order.picking_ids:
-                    
-                    
                     if picking.state == 'assigned':
                         make_done = True
                         lens_cat = self.env['product.category'].search([('name', '=', 'Lenses')])
@@ -255,6 +239,9 @@ class SaleOrder(models.Model):
                                 make_done = False
                         if make_done:
                             order._force_picking_done(picking)
+                    picking.write({
+                        'sale_order_id': order.id,
+                        })
         return res
 
 

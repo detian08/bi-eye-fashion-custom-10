@@ -12,3 +12,4 @@ from . import sale_report
 from . import stock_picking
 from . import stock_scrap
 from . import account_move
+from . import purchase_order
