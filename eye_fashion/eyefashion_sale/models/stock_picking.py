@@ -40,13 +40,18 @@ class StockPicking(models.Model):
     @api.depends('state')
     def _get_custom_state(self):
       for pick in self:
-        custom_status = ''
         if pick.state == 'draft':
           custom_status = 'new'
+          pick.update({
+                        'custom_status': custom_status,
+                     })
         elif pick.state == 'cancel':
           custom_status =  'reject'
+          pick.update({
+                        'custom_status': custom_status,
+                     })
         elif pick.state == 'done':
           custom_status =  'done'
-        pick.update({
-                      'custom_status': custom_status,
-                   })
+          pick.update({
+                        'custom_status': custom_status,
+                     })
