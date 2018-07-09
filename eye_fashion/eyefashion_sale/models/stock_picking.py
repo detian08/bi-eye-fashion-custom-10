@@ -40,6 +40,7 @@ class StockPicking(models.Model):
     @api.depends('state')
     def _get_custom_state(self):
       for pick in self:
+        custom_status = ''
         if pick.state == 'draft':
           custom_status = 'new'
         if pick.state in ['confirmed', 'partially_available', 'assigned']:
