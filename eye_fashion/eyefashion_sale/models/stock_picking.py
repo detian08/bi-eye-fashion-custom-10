@@ -16,7 +16,7 @@ class StockPicking(models.Model):
                   ('done','Done'), 
                   ('reject','Reject')]
 
-    custom_status = fields.Selection(status_list,string='Status', compute="_get_custom_state",copy=False, track_visibility='onchange')
+    custom_status = fields.Selection(status_list,string='Status',copy=False, track_visibility='onchange', default="new")
     related_status = fields.Selection(status_list,compute='_get_related_status',string='Status',readonly=True)
 
     picking_type_status = fields.Char('Picking Type', compute='_get_picking_type')
@@ -37,16 +37,16 @@ class StockPicking(models.Model):
                     if pick.picking_type_id.warehouse_id != picking.picking_type_id.warehouse_id and pick.custom_status:
                         picking.related_status = pick.custom_status
 
-    @api.depends('state')
-    def _get_custom_state(self):
-      for pick in self:
-        custom_status = ''
-        if pick.state == 'draft':
-          custom_status = 'new'
-        if pick.state in ['confirmed', 'partially_available', 'assigned']:
-          custom_status =  'under_process'
-        elif pick.state == 'done':
-          custom_status =  'done'
-        pick.update({
-                      'custom_status': custom_status,
-                   })
+    # @api.depends('state')
+    # def _get_custom_state(self):
+    #   for pick in self:
+    #     custom_status = ''
+    #     if pick.state == 'draft':
+    #       custom_status = 'new'
+    #     if pick.state in ['confirmed', 'partially_available', 'assigned']:
+    #       custom_status =  'under_process'
+    #     elif pick.state == 'done':
+    #       custom_status =  'done'
+    #     pick.update({
+    #                   'custom_status': custom_status,
+    #                })
