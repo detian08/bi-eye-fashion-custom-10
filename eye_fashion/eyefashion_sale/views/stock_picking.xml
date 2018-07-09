@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <field name="origin" position="after">
                 <field name="picking_type_status" invisible="1"/>
-                <field name="custom_status" string="Status"/>
+                <field name="custom_status" string="Status" readonly="0"/>
                 <field name="related_status" string="Status" attrs="{'invisible': ['|',('related_status','=',False),('picking_type_status','!=','incoming')]}"/>
                 <field name="sale_order_id"/>
                 <field name="purchase_order_id" invisible="1"/>
