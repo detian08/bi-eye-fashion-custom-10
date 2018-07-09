@@ -8,10 +8,10 @@
         <field name="arch" type="xml">
             <field name="origin" position="after">
                 <field name="picking_type_status" invisible="1"/>
-                <field name="custom_status" string="Status" attrs="{'invisible': [('picking_type_status','!=','outgoing')]}"/>
+                <field name="custom_status" string="Status"/>
                 <field name="related_status" string="Status" attrs="{'invisible': ['|',('related_status','=',False),('picking_type_status','!=','incoming')]}"/>
-                <field name="sale_order_id" attrs="{'invisible':[('purchase_order_id', '!=', False)]}"/>
-                <field name="purchase_order_id" attrs="{'invisible':[('sale_order_id', '!=', False)]}"/>
+                <field name="sale_order_id"/>
+                <field name="purchase_order_id" invisible="1"/>
             </field>
         </field>
     </record>

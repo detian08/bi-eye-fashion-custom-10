@@ -239,7 +239,8 @@ class SaleOrder(models.Model):
                                 make_done = False
                         if make_done:
                             order._force_picking_done(picking)
-                    picking.write({
+            for picking_id in order.picking_ids:
+                picking_id.write({
                         'sale_order_id': order.id,
                         })
         return res
