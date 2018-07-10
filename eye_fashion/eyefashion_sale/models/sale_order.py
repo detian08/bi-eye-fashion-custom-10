@@ -318,6 +318,7 @@ class SaleOrder(models.Model):
             'communication':memo,
             'partner_id': partner_id,
             'sale_id':self.id,
+            'analytic_acc_id': self.project_id.id,
         })
         if journal.is_corporate:
             payment_vals.update({'corporate_id': self.corporate_id.id})

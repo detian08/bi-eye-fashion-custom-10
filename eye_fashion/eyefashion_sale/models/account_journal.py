@@ -24,6 +24,9 @@ class AccountPayment(models.Model):
     corporate_id = fields.Many2one('res.partner','Corporate')
     actual_amount = fields.Float(string='Payment Amount',compute='_get_actual_amount',store=True)
     team_leader = fields.Many2one('res.users', compute="get_team_leader", string="Team Leader", store=True)
+    analytic_acc_id = fields.Many2one('account.analytic.account', string='Analytic Account')
+
+
 
     @api.depends('create_uid')
     def get_team_leader(self):

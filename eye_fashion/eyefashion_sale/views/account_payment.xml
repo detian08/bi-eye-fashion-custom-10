@@ -21,6 +21,12 @@
             <filter name="state_draft" position="before">
                 <filter string="Today" name="today_filter" domain="[('payment_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
             </filter>
+            <field name="journal_id" position='after'>
+                <field name="analytic_acc_id"/>
+            </field>
+            <filter name="state_sent" position='after'>
+                <filter string="Analytic Account" name="analytic_acc" domain="[]" context="{'group_by': 'analytic_acc_id'}"/>
+            </filter>
         </field>
     </record>
 
@@ -32,6 +38,11 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='payment_type']" position="after">
                 <field name="team_leader"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <field name="analytic_acc_id"/>
+                </group>
             </xpath>
         </field>
     </record>
