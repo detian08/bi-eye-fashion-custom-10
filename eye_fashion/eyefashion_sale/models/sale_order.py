@@ -219,10 +219,8 @@ class SaleOrder(models.Model):
             if order.sale_type == 'pos':
                 for line in order.order_line:
                     cat = self.env['product.category'].search([('name', '=', 'Lenses')])
-                    if line.product_id.categ_id.id == cat.id:
-                        print "equal"
+                    if line.product_id.categ_id.parent_id == cat.id:
                         if not order.medical_id:
-                            print "no medical"
                             raise UserError(_("You Must Enter Medical To Add Lenses !!"))
                 order.create_pos_invoice()
                 for invoice in order.invoice_ids:
@@ -235,7 +233,7 @@ class SaleOrder(models.Model):
                         make_done = True
                         lens_cat = self.env['product.category'].search([('name', '=', 'Lenses')])
                         for move in picking.move_lines:
-                            if move.product_id.categ_id.id == lens_cat.id:
+                            if move.product_id.categ_id.parent_id == lens_cat.id:
                                 make_done = False
                         if make_done:
                             order._force_picking_done(picking)
