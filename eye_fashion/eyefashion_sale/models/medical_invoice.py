@@ -28,3 +28,4 @@ class AccountInvoiceMedical(models.Model):
     le_ipd =fields.Selection(related='medical_id.le_ipd', string='LE (IPD)',readonly=True)
     le_add =fields.Selection(related='medical_id.le_add',  string='LE (ADD)',readonly=True)
     le_seg =fields.Selection(related='medical_id.le_seg', string='LE (SEG.HI)',readonly=True)
+   # analytic_account = fields.Many2one('account.analytic.account', related="sale_order_id.related_project_id", string="Analytic Account", store=True)
