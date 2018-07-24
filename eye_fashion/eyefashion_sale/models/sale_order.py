@@ -128,7 +128,7 @@ class SaleOrder(models.Model):
     adjusted_account_move = fields.Many2one('account.move','Discount Entry',readonly=True)
     warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse',required=True, readonly=True,
                                    states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},default=_default_warehouse_id)
-    project_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+    project_id = fields.Many2one('account.analytic.account', 'Analytic Account', related="user_id.sale_team_id.analytic_account_id", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
                                  help="The analytic account related to a sales order.",default=_default_team_analytic_id, copy=False, store=True)
 
     sale_promotion_id = fields.Char()
