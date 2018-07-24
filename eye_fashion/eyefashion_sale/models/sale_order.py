@@ -47,35 +47,10 @@ class SaleOrder(models.Model):
 
     @api.model
     def _default_team_analytic_id(self):
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print self.env.user.sale_team_id.id
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
-        print "                        "
         sales_team_id = self.env.user.sale_team_id.id
         analytic_account_id = self.env['crm.team'].browse(sales_team_id).analytic_account_id
-        print analytic_account_id
-        return analytic_account_id
+        if analytic_account_id:
+            return analytic_account_id
 
 
     @api.depends('order_line.price_total')
