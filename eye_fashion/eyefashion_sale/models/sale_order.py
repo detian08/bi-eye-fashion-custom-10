@@ -47,8 +47,34 @@ class SaleOrder(models.Model):
 
     @api.model
     def _default_team_analytic_id(self):
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print self.env.user.sale_team_id.id
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
+        print "                        "
         sales_team_id = self.env.user.sale_team_id.id
         analytic_account_id = self.env['crm.team'].browse(sales_team_id).analytic_account_id
+        print analytic_account_id
         return analytic_account_id
 
 
@@ -128,7 +154,7 @@ class SaleOrder(models.Model):
     warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse',required=True, readonly=True,
                                    states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},default=_default_warehouse_id)
     project_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
-                                 help="The analytic account related to a sales order.",default=_default_team_analytic_id, copy=False)
+                                 help="The analytic account related to a sales order.",default=_default_team_analytic_id, copy=False, store=True)
 
     sale_promotion_id = fields.Char()
 
@@ -146,8 +172,9 @@ class SaleOrder(models.Model):
                 sequence_code = self.team_id.sequence_id.code
             vals['name'] = self.env['ir.sequence'].next_by_code(sequence_code) or 'New'
             res = super(SaleOrder, self).create(vals)
+            
             if not res.payment_ids and not vals.get('cash_amount') and not vals.get('bank_amount1') and not vals.get('bank_amount2') and not vals.get('corporate_amount'):
-            # if not res.payment_ids:
+            #if not res.payment_ids:
                 raise UserError(_("You cannot proceed in the order without any payments."))
 
             total_amount = res.bank_amount1 + res.bank_amount2 + res.cash_amount + res.corporate_amount
